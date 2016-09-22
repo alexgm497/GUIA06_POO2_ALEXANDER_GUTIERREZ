@@ -32,46 +32,31 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <div class="row">
-            <h:form id="FormGrupAlum">
+            <h:form id="FormAlum">
                 <div class="col-md-4 col-xs-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">Formulario</div>
                         <div class="panel-body">
                             <h:inputHidden id="codi" value="#{grupoAlumnosBean.objeGrupAlum.codiGrupAlum}" />
-                            <div class="form-group">
-                                <h:outputLabel  for="nomb" value="Nombre: "/>
-                                <h:inputText id="nomb" value="#{alumnosBean.objeAlum.nombAlum}" class="form-control" />
-                                <h:message for="nomb" errorClass="field-error" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="apel" value="Apellido: "/>
-                                <h:inputText id="apel" value="#{alumnosBean.objeAlum.apelAlum}" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="fechNaci" value="Fecha Nacimiento: "/>
-                                <h:inputText id="fechNaci" value="#{alumnosBean.objeAlum.fechNaciAlum}" class="form-control">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:inputText>
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="mail" value="E-mail: "/>
-                                <h:inputText id="mail" value="#{alumnosBean.objeAlum.mailAlum}" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="tele" value="Teléfono: "/>
-                                <h:inputText id="tele" value="#{alumnosBean.objeAlum.teleAlum}" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="dire" value="Dirección: "/>
-                                <h:inputText id="dire" value="#{alumnosBean.objeAlum.direAlum}" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="gene" value="Género: "/>
-                                <h:selectOneMenu id="gene" value="#{alumnosBean.objeAlum.geneAlum}" class="form-control">
-                                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
-                                    <f:selectItem itemValue="F" itemLabel="Femenino"/>
+                            <div class="input-group input-group-xs">
+                                <h:outputLabel  for="grup" value="Grupo: "/>
+                                <h:selectOneMenu id="grup" value="#{gruposAlumnosBean.objeGrupAlum.codiGrup}" class="form-control">
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                    <f:selectItems value="#{gruposBean.grupos}" var="lst" itemLabel="#{lst.nombGrup}" itemValue="#{lst}"/>
+                                    <f:converter converterId="PooConv"/>
                                 </h:selectOneMenu>
+                                <h:message for="grup" errorClass="field-error" />
                             </div>
+                            <div class="input-group input-group-xs">
+                                <h:outputLabel  for="alum" value="Alumno: "/>
+                                <h:selectOneMenu id="alum" value="#{gruposAlumnosBean.objeGrupAlum.codiAlum}" class="form-control">
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                    <f:selectItems value="#{alumnosBean.alumnos}" var="lst2" itemLabel="#{lst2.nombAlum} #{lst2.apelAlum}" itemValue="#{lst2}"/>
+                                    <f:converter converterId="PooConv"/>
+                                </h:selectOneMenu>
+                                <h:message for="alum" errorClass="field-error" />
+                            </div>
+                            <br/>
                             <div class="form-group">
                                 <h:commandLink id="btonGuar" class="btn btn-primary">
                                     <p:ajax listener="#{alumnosBean.guar()}" process="@form" update="@form ContTabla"></p:ajax>
@@ -118,7 +103,7 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Elimiar</f:facet>
-                                        <h:commandLink id="btonElim" class="btn btn-primary">
+                                        <h:commandLink id="btonElim" class="btn btn-primary" onclick="return confirm('¿Desea borrar el registro?')">
                                             <p:ajax listener="#{alumnosBean.elim(alum.codiAlum)}" update="@form"></p:ajax>
                                             <i class="fa fa-warning"/> Eliminar
                                         </h:commandLink>

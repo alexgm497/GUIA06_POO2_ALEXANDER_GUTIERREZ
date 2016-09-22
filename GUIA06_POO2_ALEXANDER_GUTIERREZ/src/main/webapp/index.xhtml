@@ -118,7 +118,7 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Elimiar</f:facet>
-                                        <h:commandLink id="btonElim" class="btn btn-primary">
+                                        <h:commandLink id="btonElim" class="btn btn-primary" onclick="return confirm('¿Desea borrar el registro?')">
                                             <p:ajax listener="#{alumnosBean.elim(alum.codiAlum)}" update="@form"></p:ajax>
                                             <i class="fa fa-warning"/> Eliminar
                                         </h:commandLink>

@@ -36,4 +36,11 @@ public class GruposBean implements Serializable{
     public void init() {
         this.grupos = FCDEGrupos.findAll();
     }
+    public List<Grupos> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(List<Grupos> listGrup) {
+        this.grupos = listGrup;
+    }
 }
