@@ -5,81 +5,84 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.ejb.AlumnosFacadeLocal;
-import com.sv.udb.modelo.Alumnos;
-import java.io.Serializable;
-import java.util.ArrayList;
+import com.sv.udb.ejb.CursosFacadeLocal;
+import com.sv.udb.modelo.Cursos;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.RequestScoped;
 import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author REGISTRO
+ * @author Alexander
  */
-@Named(value = "alumnosBean")
-@ViewScoped
-public class AlumnosBean implements Serializable {
+@Named(value = "cursosBean")
+@RequestScoped
+public class CursosBean {
 
     @EJB
-    private AlumnosFacadeLocal FCDEAlum;
-    private List<Alumnos> alumnos = new ArrayList();
-    private Alumnos objeAlum;
+    private CursosFacadeLocal FCDECursos;
+    private List<Cursos> cursos;
+    private Cursos objeCursos;
     private boolean guardar;
 
-    public Alumnos getObjeAlum() {
-        return objeAlum;
+    /**
+     * Creates a new instance of CursosBean
+     */
+    public CursosBean() {
     }
 
-    public void setObjeAlum(Alumnos objeAlum) {
-        this.objeAlum = objeAlum;
+    public List<Cursos> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(List<Cursos> cursos) {
+        this.cursos = cursos;
+    }
+
+    public Cursos getObjeCursos() {
+        return objeCursos;
+    }
+
+    public void setObjeCursos(Cursos objeCursos) {
+        this.objeCursos = objeCursos;
     }
 
     public boolean isGuardar() {
         return guardar;
     }
 
-    public List<Alumnos> getAlumnos() {
-        return alumnos;
-    }
-
-    /**
-     * Creates a new instance of AlumnosBean
-     */
-    public AlumnosBean() {
-
+    public void setGuardar(boolean guardar) {
+        this.guardar = guardar;
     }
 
     @PostConstruct
     public void init() {
-        this.objeAlum = new Alumnos();
-        this.guardar = true;
-        this.consTodo();
         this.limpForm();
-    }
-
-    public void limpForm() {
-        this.objeAlum = new Alumnos();
-        this.guardar = true;
+        this.consTodo();
     }
 
     public void consTodo() {
         try {
-            this.alumnos = FCDEAlum.findAll();
+            this.cursos = FCDECursos.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    public void limpForm() {
+        this.objeCursos = new Cursos();
+        this.guardar = true;
+    }
+
     public void guar() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página        
         try {
-            FCDEAlum.create(objeAlum);
+            FCDECursos.create(objeCursos);
             this.guardar = true;
-            this.alumnos.add(objeAlum);
+            this.cursos.add(objeCursos);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos guardados');");
         } catch (Exception ex) {
@@ -88,20 +91,20 @@ public class AlumnosBean implements Serializable {
         }
     }
 
-    public void cons(int codiAlum) {
+    public void cons(int codiCurs) {
         try {
-            this.objeAlum = FCDEAlum.find(codiAlum);
+            this.objeCursos = FCDECursos.find(codiCurs);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void elim(int codiAlum) {
+    public void elim(int codiCurs) {
         RequestContext ctx = RequestContext.getCurrentInstance();
         try {
-            this.objeAlum = FCDEAlum.find(codiAlum);
-            FCDEAlum.remove(objeAlum);
-            this.alumnos.remove(objeAlum);
+            this.objeCursos = FCDECursos.find(codiCurs);
+            FCDECursos.remove(objeCursos);
+            this.cursos.remove(objeCursos);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos eliminados');");
         } catch (Exception ex) {
@@ -113,8 +116,8 @@ public class AlumnosBean implements Serializable {
     public void actu() {
         RequestContext ctx = RequestContext.getCurrentInstance();
         try {
-            FCDEAlum.edit(objeAlum);
-            this.alumnos = FCDEAlum.findAll();
+            FCDECursos.edit(objeCursos);
+            this.cursos = FCDECursos.findAll();
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos actualizados');");
         } catch (Exception ex) {

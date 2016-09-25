@@ -36,9 +36,9 @@ and open the template in the editor.
                 <a href="index.xhtml" class="brand-logo right">GUIA 6 - POO2</a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
                     <li><a href="index.xhtml">Alumnos</a></li>
-                    <li><a href="#">Grupo Alumnos</a></li>
+                    <li><a href="index2.xhtml">Grupo Alumnos</a></li>
                     <li><a href="index3.xhtml">Cursos</a></li>
-                    <li><a href="index4.xhtml">Profesores</a></li>
+                    <li><a href="#">Profesores</a></li>
                 </ul>
             </div>
         </nav>
@@ -48,42 +48,39 @@ and open the template in the editor.
                     <div class="panel panel-default">
                         <div class="panel-heading">Formulario</div>
                         <div class="panel-body">
-                            <h:inputHidden id="codi" value="#{grupoAlumnosBean.objeGrupAlum.codiGrupAlum}" />
-                            <div class="input-group input-group-xs">
-                                <h:outputLabel  for="grup" value="Grupo: "/>
-                                <h:selectOneMenu id="grup" value="#{grupoAlumnosBean.objeGrupAlum.codiGrup}" class="form-control">
-                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                    <f:selectItems value="#{gruposBean.grupos}" var="lst" itemLabel="#{lst.nombGrup}" itemValue="#{lst}"/>
-                                    <f:converter converterId="PooConv"/>
-                                </h:selectOneMenu>
-                                <h:message for="grup" errorClass="field-error" />
+                            <h:inputHidden id="codi" value="#{profesoresBean.objeProfesores.codiProf}" />
+                            <div class="form-group">
+                                <h:outputLabel  for="nomb" value="Nombre: "/>
+                                <h:inputText id="nomb" value="#{profesoresBean.objeProfesores.nombProf}" class="form-control" />
+                                <h:message for="nomb" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
-                                <h:outputLabel  for="alum" value="Alumno: "/>
-                                <h:selectOneMenu id="alum" value="#{grupoAlumnosBean.objeGrupAlum.codiAlum}" class="form-control">
-                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                    <f:selectItems value="#{alumnosBean.alumnos}" var="lst2" itemLabel="#{lst2.nombAlum} #{lst2.apelAlum}" itemValue="#{lst2}"/>
-                                    <f:converter converterId="PooConv"/>
-                                </h:selectOneMenu>
-                                <h:message for="alum" errorClass="field-error" />
+                            <div class="form-group">
+                                <h:outputLabel  for="apel" value="Apellido: "/>
+                                <h:inputText id="apel" value="#{profesoresBean.objeProfesores.apelProf}" class="form-control" />
+                                <h:message for="apel" errorClass="field-error" />
+                            </div>                            
+                            <div class="form-group">
+                                <h:outputLabel  for="mail" value="E-mail: "/>
+                                <h:inputText id="mail" value="#{profesoresBean.objeProfesores.mailProf}" class="form-control" />
+                                <h:message for="mail" errorClass="field-error" />
                             </div>
-                            <div class="input-group input-group-xs">
-                                <h:outputLabel  for="esta" value="Estado: "/>
-                                <h:selectOneMenu id="esta" value="#{grupoAlumnosBean.objeGrupAlum.estaGrupAlum}" class="form-control">
-                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                    <f:selectItem itemValue="1" itemLabel="Activo"/>
-                                    <f:selectItem itemValue="0" itemLabel="Inactivo"/>
-                                </h:selectOneMenu>
-                                <h:message for="esta" errorClass="field-error" />
+                            <div class="form-group">
+                                <h:outputLabel  for="tele" value="Teléfono: "/>
+                                <h:inputText id="tele" value="#{profesoresBean.objeProfesores.teleProf}" class="form-control" />
+                                <h:message for="tele" errorClass="field-error" />
                             </div>
-                            <br/>
+                            <div class="form-group">
+                                <h:outputLabel  for="dire" value="Dirección: "/>
+                                <h:inputText id="dire" value="#{profesoresBean.objeProfesores.direPro}" class="form-control" />
+                                <h:message for="dire" errorClass="field-error" />
+                            </div>                            
                             <div class="form-group">
                                 <h:commandLink id="btonGuar" class="btn btn-primary">
-                                    <p:ajax listener="#{grupoAlumnosBean.guar()}" process="@form" update="@form ContTabla"></p:ajax>
+                                    <p:ajax listener="#{profesoresBean.guar()}" process="@form" update="@form ContTabla"></p:ajax>
                                     <i class="fa fa-save"/> Guardar
                                 </h:commandLink>
                                 <h:commandLink id="btonCons" class="btn btn-primary">
-                                    <p:ajax listener="#{grupoAlumnosBean.actu()}" process="@form" update="@form"></p:ajax>
+                                    <p:ajax listener="#{profesoresBean.actu()}" process="@form" update="@form"></p:ajax>
                                     <i class="fa fa-refresh"/> Modificar
                                 </h:commandLink>
                             </div>
@@ -95,33 +92,34 @@ and open the template in the editor.
                         <div class="panel-heading">Tabla de datos</div>
                         <div class="panel-body">
                             <h:panelGroup id="ContTabla">
-                                <h:dataTable value="#{grupoAlumnosBean.alumGrup}" var="alum" border="1" class="striped">
+                                <h:dataTable value="#{profesoresBean.profesores}" var="prof" border="1" class="striped">
                                     <h:column>
-                                        <f:facet class="card-panel teal lighten-2" name="header">Nombre</f:facet>
-                                            #{alum.codiAlum.nombAlum} #{alum.codiAlum.apelAlum}
+                                        <f:facet class="card-panel teal lighten-2" name="header">Nombre:</f:facet>
+                                            #{prof.nombProf}
                                     </h:column>
                                     <h:column>
-                                        <f:facet class="card-panel teal lighten-2" name="header">Grupo</f:facet>
-                                            #{alum.codiGrup.nombGrup}
-                                    </h:column>                                    
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Estado</f:facet> 
-                                        <h:panelGroup class="label label-success" rendered="#{alum.estaGrupAlum eq '1'}">
-                                            <i class="fa fa-unlock"/>Activo</h:panelGroup>
-                                        <h:panelGroup class="label label-danger" rendered="#{alum.estaGrupAlum ne '1'}">
-                                            <i class="fa fa-lock"/>Inactivo</h:panelGroup>
+                                        <f:facet class="card-panel teal lighten-2" name="header">Apellido:</f:facet>
+                                            #{prof.apelProf}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet class="card-panel teal lighten-2" name="header">E-mail:</f:facet>
+                                            #{prof.mailProf}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet class="card-panel teal lighten-2" name="header">Teléfono:</f:facet>
+                                            #{prof.teleProf}
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Consultar</f:facet>
                                         <h:commandLink id="btonCons" class="btn btn-primary">
-                                            <p:ajax listener="#{grupoAlumnosBean.cons(alum.codiGrupAlum)}" update="@form"></p:ajax>
+                                            <p:ajax listener="#{profesoresBean.cons(prof.codiProf)}" update="@form"></p:ajax>
                                             <i class="fa fa-question"/> Consultar
                                         </h:commandLink>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Elimiar</f:facet>
                                         <h:commandLink id="btonElim" class="btn btn-primary" onclick="return confirm('¿Desea borrar el registro?')">
-                                            <p:ajax listener="#{grupoAlumnosBean.elim(alum.codiGrupAlum)}" update="@form"></p:ajax>
+                                            <p:ajax listener="#{profesoresBean.elim(prof.codiProf)}" update="@form"></p:ajax>
                                             <i class="fa fa-warning"/> Eliminar
                                         </h:commandLink>
                                     </h:column>                            
