@@ -35,11 +35,11 @@ and open the template in the editor.
             <div class="nav-wrapper">
                 <a href="index.xhtml" class="brand-logo right">GUIA 6 - POO2</a>
                 <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="#">Alumnos</a></li>
+                    <li><a href="index.xhtml">Alumnos</a></li>
                     <li><a href="index2.xhtml">Grupo Alumnos</a></li>
                     <li><a href="index3.xhtml">Cursos</a></li>
                     <li><a href="index4.xhtml">Profesores</a></li>
-                    <li><a href="index5.xhtml">Grupos</a></li>
+                    <li><a href="#">Grupos</a></li>
                 </ul>
             </div>
         </nav>
@@ -49,54 +49,62 @@ and open the template in the editor.
                     <div class="panel panel-default">
                         <div class="panel-heading">Formulario</div>
                         <div class="panel-body">
-                            <h:inputHidden id="codi" value="#{alumnosBean.objeAlum.codiAlum}" />
+                            <h:inputHidden id="codi" value="#{gruposBean.objeGrupos.codiGrup}" />
                             <div class="form-group">
                                 <h:outputLabel  for="nomb" value="Nombre: "/>
-                                <h:inputText id="nomb" value="#{alumnosBean.objeAlum.nombAlum}" class="form-control" />
+                                <h:inputText id="nomb" value="#{gruposBean.objeGrupos.nombGrup}" class="form-control" />
                                 <h:message for="nomb" errorClass="field-error" />
-                            </div>
+                            </div>                            
                             <div class="form-group">
-                                <h:outputLabel  for="apel" value="Apellido: "/>
-                                <h:inputText id="apel" value="#{alumnosBean.objeAlum.apelAlum}" class="form-control" />
-                                <h:message for="apel" errorClass="field-error" />
-                            </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="fechNaci" value="Fecha Nacimiento: "/>
-                                <h:inputText id="fechNaci" value="#{alumnosBean.objeAlum.fechNaciAlum}" class="form-control">
+                                <h:outputLabel  for="fechInic" value="Fecha Inicio: "/>
+                                <h:inputText id="fechInic" value="#{gruposBean.objeGrupos.fechInicGrup}" class="form-control">
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:inputText>
-                                <h:message for="fechNaci" errorClass="field-error" />
+                                <h:message for="fechInic" errorClass="field-error" />
                             </div>
                             <div class="form-group">
-                                <h:outputLabel  for="mail" value="E-mail: "/>
-                                <h:inputText id="mail" value="#{alumnosBean.objeAlum.mailAlum}" class="form-control" />
-                                <h:message for="mail" errorClass="field-error" />
+                                <h:outputLabel  for="fechFina" value="Fecha Fin: "/>
+                                <h:inputText id="fechFina" value="#{gruposBean.objeGrupos.fechFinaGrup}" class="form-control">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:inputText>
+                                <h:message for="fechFina" errorClass="field-error" />
                             </div>
                             <div class="form-group">
-                                <h:outputLabel  for="tele" value="Teléfono: "/>
-                                <h:inputText id="tele" value="#{alumnosBean.objeAlum.teleAlum}" class="form-control" />
-                                <h:message for="tele" errorClass="field-error" />
+                                <h:outputLabel  for="horaInic" value="Hora Inicio: "/>
+                                <h:inputText id="horaInic" value="#{gruposBean.objeGrupos.horaInicGrup}" class="form-control" />
+                                <h:message for="horaInic" errorClass="field-error" />
                             </div>
                             <div class="form-group">
-                                <h:outputLabel  for="dire" value="Dirección: "/>
-                                <h:inputText id="dire" value="#{alumnosBean.objeAlum.direAlum}" class="form-control" />
-                                <h:message for="dire" errorClass="field-error" />
+                                <h:outputLabel  for="horaFina" value="Hora Fin: "/>
+                                <h:inputText id="horaFina" value="#{gruposBean.objeGrupos.horaFinaGrup}" class="form-control" />
+                                <h:message for="horaFina" errorClass="field-error" />
                             </div>
-                            <div class="form-group">
-                                <h:outputLabel  for="gene" value="Género: "/>
-                                <h:selectOneMenu id="gene" value="#{alumnosBean.objeAlum.geneAlum}" class="form-control">
-                                    <f:selectItem itemValue="M" itemLabel="Masculino"/>
-                                    <f:selectItem itemValue="F" itemLabel="Femenino"/>
+                            <div class="input-group input-group-xs">
+                                <h:outputLabel  for="curs" value="Curso: "/>
+                                <h:selectOneMenu id="curs" value="#{gruposBean.objeGrupos.codiCurs}" class="form-control">
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                    <f:selectItems value="#{cursosBean.cursos}" var="lst" itemLabel="#{lst.nombCurs}" itemValue="#{lst}"/>
+                                    <f:converter converterId="PooConv"/>
                                 </h:selectOneMenu>
-                                <h:message for="gene" errorClass="field-error" />
+                                <h:message for="curs" errorClass="field-error" />
                             </div>
+                            <div class="input-group input-group-xs">
+                                <h:outputLabel  for="prof" value="Profesor: "/>
+                                <h:selectOneMenu id="prof" value="#{gruposBean.objeGrupos.codiProf}" class="form-control">
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                    <f:selectItems value="#{profesoresBean.profesores}" var="lst2" itemLabel="#{lst2.nombProf}" itemValue="#{lst2}"/>
+                                    <f:converter converterId="PooConv"/>
+                                </h:selectOneMenu>
+                                <h:message for="prof" errorClass="field-error" />
+                            </div>
+                            <br/>
                             <div class="form-group">
                                 <h:commandLink id="btonGuar" class="btn btn-primary">
-                                    <p:ajax listener="#{alumnosBean.guar()}" process="@form" update="@form ContTabla"></p:ajax>
+                                    <p:ajax listener="#{gruposBean.guar()}" process="@form" update="@form ContTabla"></p:ajax>
                                     <i class="fa fa-save"/> Guardar
                                 </h:commandLink>
                                 <h:commandLink id="btonCons" class="btn btn-primary">
-                                    <p:ajax listener="#{alumnosBean.actu()}" process="@form" update="@form"></p:ajax>
+                                    <p:ajax listener="#{gruposBean.actu()}" process="@form" update="@form"></p:ajax>
                                     <i class="fa fa-refresh"/> Modificar
                                 </h:commandLink>
                             </div>
@@ -108,36 +116,42 @@ and open the template in the editor.
                         <div class="panel-heading">Tabla de datos</div>
                         <div class="panel-body">
                             <h:panelGroup id="ContTabla">
-                                <h:dataTable value="#{alumnosBean.alumnos}" var="alum" border="1" class="striped">
+                                <h:dataTable value="#{gruposBean.grupos}" var="grup" border="1" class="striped">
                                     <h:column>
                                         <f:facet class="card-panel teal lighten-2" name="header">Nombre:</f:facet>
-                                            #{alum.nombAlum}
-                                    </h:column>
+                                            #{grup.nombGrup}
+                                    </h:column>                                    
                                     <h:column>
-                                        <f:facet class="card-panel teal lighten-2" name="header">Apellido:</f:facet>
-                                            #{alum.apelAlum}
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet class="card-panel teal lighten-2" name="header">Nacimiento:</f:facet>
-                                        <h:outputText value="#{alum.fechNaciAlum}">
+                                        <f:facet class="card-panel teal lighten-2" name="header">Inicio:</f:facet>
+                                        <h:outputText value="#{grup.fechInicGrup}">
                                             <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                                         </h:outputText>
                                     </h:column>
                                     <h:column>
-                                        <f:facet name="header">Genero:</f:facet>
-                                            #{alum.geneAlum}
+                                        <f:facet class="card-panel teal lighten-2" name="header">Fin:</f:facet>
+                                        <h:outputText value="#{grup.fechFinaGrup}">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Curso:</f:facet>
+                                            #{grup.codiCurs.nombCurs}
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Profesor:</f:facet>
+                                            #{grup.codiProf.nombProf} #{grup.codiProf.apelProf}
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Consultar</f:facet>
                                         <h:commandLink id="btonCons" class="btn btn-primary">
-                                            <p:ajax listener="#{alumnosBean.cons(alum.codiAlum)}" update="@form"></p:ajax>
+                                            <p:ajax listener="#{gruposBean.cons(grup.codiGrup)}" update="@form"></p:ajax>
                                             <i class="fa fa-question"/> Consultar
                                         </h:commandLink>
                                     </h:column>
                                     <h:column>
                                         <f:facet name="header">Elimiar</f:facet>
                                         <h:commandLink id="btonElim" class="btn btn-primary" onclick="return confirm('¿Desea borrar el registro?')">
-                                            <p:ajax listener="#{alumnosBean.elim(alum.codiAlum)}" update="@form"></p:ajax>
+                                            <p:ajax listener="#{gruposBean.elim(grup.codiGrup)}" update="@form"></p:ajax>
                                             <i class="fa fa-warning"/> Eliminar
                                         </h:commandLink>
                                     </h:column>                            
