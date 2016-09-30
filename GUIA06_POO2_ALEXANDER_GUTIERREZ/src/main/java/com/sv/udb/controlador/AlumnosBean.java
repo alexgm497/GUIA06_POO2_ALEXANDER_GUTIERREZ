@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import static com.fasterxml.jackson.databind.util.ClassUtil.getRootCause;
 import com.sv.udb.ejb.AlumnosFacadeLocal;
 import com.sv.udb.modelo.Alumnos;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -23,7 +25,7 @@ import org.primefaces.context.RequestContext;
 @Named(value = "alumnosBean")
 @ViewScoped
 public class AlumnosBean implements Serializable {
-
+    static Logger log = Logger.getLogger(AlumnosBean.class.getName());
     @EJB
     private AlumnosFacadeLocal FCDEAlum;
     private List<Alumnos> alumnos = new ArrayList();
@@ -71,12 +73,14 @@ public class AlumnosBean implements Serializable {
             this.alumnos = FCDEAlum.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
     public void guar() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página        
         try {
+            objeAlum.setNombAlum(null);
             FCDEAlum.create(objeAlum);
             this.guardar = true;
             this.alumnos.add(objeAlum);
@@ -85,6 +89,7 @@ public class AlumnosBean implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO','Mensaje', 'Datos NO guardados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -93,6 +98,7 @@ public class AlumnosBean implements Serializable {
             this.objeAlum = FCDEAlum.find(codiAlum);
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -107,6 +113,7 @@ public class AlumnosBean implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO eliminados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -120,6 +127,7 @@ public class AlumnosBean implements Serializable {
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO actualizados');");
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 }

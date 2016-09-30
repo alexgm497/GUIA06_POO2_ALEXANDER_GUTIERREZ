@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import static com.fasterxml.jackson.databind.util.ClassUtil.getRootCause;
 import com.sv.udb.ejb.CursosFacadeLocal;
 import com.sv.udb.modelo.Cursos;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -21,7 +23,7 @@ import org.primefaces.context.RequestContext;
 @Named(value = "cursosBean")
 @RequestScoped
 public class CursosBean {
-
+    static Logger log = Logger.getLogger(CursosBean.class.getName());
     @EJB
     private CursosFacadeLocal FCDECursos;
     private List<Cursos> cursos;
@@ -69,6 +71,7 @@ public class CursosBean {
             this.cursos = FCDECursos.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -88,6 +91,7 @@ public class CursosBean {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO','Mensaje', 'Datos NO guardados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -96,6 +100,7 @@ public class CursosBean {
             this.objeCursos = FCDECursos.find(codiCurs);
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -110,6 +115,7 @@ public class CursosBean {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO eliminados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -123,6 +129,7 @@ public class CursosBean {
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO actualizados');");
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 }

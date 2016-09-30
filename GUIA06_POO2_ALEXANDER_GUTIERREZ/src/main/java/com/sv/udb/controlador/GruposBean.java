@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import static com.fasterxml.jackson.databind.util.ClassUtil.getRootCause;
 import com.sv.udb.ejb.GruposFacadeLocal;
 import com.sv.udb.modelo.Grupos;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -22,7 +24,7 @@ import org.primefaces.context.RequestContext;
 @Named(value = "gruposBean")
 @RequestScoped
 public class GruposBean implements Serializable {
-
+    static Logger log = Logger.getLogger(GruposBean.class.getName());
     @EJB
     private GruposFacadeLocal FCDEGrupos;
     private List<Grupos> grupos;
@@ -77,6 +79,7 @@ public class GruposBean implements Serializable {
             this.grupos = FCDEGrupos.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -91,6 +94,7 @@ public class GruposBean implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO','Mensaje', 'Datos NO guardados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -99,6 +103,7 @@ public class GruposBean implements Serializable {
             this.objeGrupos = FCDEGrupos.find(codiAlum);
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -113,6 +118,7 @@ public class GruposBean implements Serializable {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO eliminados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -126,6 +132,7 @@ public class GruposBean implements Serializable {
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO actualizados');");
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 }

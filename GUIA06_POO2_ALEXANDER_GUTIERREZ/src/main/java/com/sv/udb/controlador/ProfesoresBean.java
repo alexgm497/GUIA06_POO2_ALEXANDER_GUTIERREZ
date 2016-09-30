@@ -5,6 +5,7 @@
  */
 package com.sv.udb.controlador;
 
+import static com.fasterxml.jackson.databind.util.ClassUtil.getRootCause;
 import com.sv.udb.ejb.ProfesoresFacadeLocal;
 import com.sv.udb.modelo.Profesores;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -21,7 +23,7 @@ import org.primefaces.context.RequestContext;
 @Named(value = "profesoresBean")
 @RequestScoped
 public class ProfesoresBean {
-
+    static Logger log = Logger.getLogger(GruposBean.class.getName());
     @EJB
     private ProfesoresFacadeLocal FCDEProfesores;
     private List<Profesores> profesores;
@@ -76,6 +78,7 @@ public class ProfesoresBean {
             this.profesores = FCDEProfesores.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -90,6 +93,7 @@ public class ProfesoresBean {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO','Mensaje', 'Datos NO guardados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -98,6 +102,7 @@ public class ProfesoresBean {
             this.objeProfesores = FCDEProfesores.find(codiAlum);
         } catch (Exception ex) {
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -112,6 +117,7 @@ public class ProfesoresBean {
         } catch (Exception ex) {
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO eliminados');");
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 
@@ -125,6 +131,7 @@ public class ProfesoresBean {
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_SUCC','Mensaje', 'Datos NO actualizados');");
             ex.printStackTrace();
+            log.debug(getRootCause(ex).getMessage());
         }
     }
 }
